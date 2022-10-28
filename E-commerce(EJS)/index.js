@@ -2,21 +2,21 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
+require("dotenv").config();
+
 
 //Configurar el bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //Cargar archivos estaticos
-app.use(express.static(__dirname + "/Public"));
+app.use(express.static(__dirname + "/public"));
 
 
 
 //Mongoose
 
 mongoose
-  .connect(
-    "mongodb+srv://alvaro_0817:A65708589l@cluster0.cbh2tqk.mongodb.net/Ecommerce_ejs?retryWrites=true&w=majority"
-  )
+  .connect(process.env.STRING_CONEXION)
   .then(function (db) {
     console.log("Conectado a la base de datos");
   })
@@ -35,7 +35,6 @@ var Comp = require("./models/compras")
 
 async function total_carrito() {
   var t = await Comp.find();
-  console.log(t.length);
   return t.length;
 }
 
@@ -117,6 +116,6 @@ app.get("/categoria/:cat", async function (req, res) {
 });
 
 //Listen
-app.listen("4000", function (){
+app.listen("3000", function (){
     console.log("Servidor iniciado");
 });
