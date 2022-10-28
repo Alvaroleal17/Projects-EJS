@@ -1,7 +1,7 @@
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema
 
-var producto = new Schema ({
+const producto = new Schema ({
     article: String,
     description: String,
     carousel: Array,

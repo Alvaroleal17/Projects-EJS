@@ -1,7 +1,7 @@
-var express = require("express");
-var app = express();
-var bodyParser = require("body-parser");
-var mongoose = require("mongoose");
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 require("dotenv").config();
 
 
@@ -25,23 +25,23 @@ mongoose
   });
 
 //Configurar Motor de Plantillas
-var path = __dirname + "/views";
+const path = __dirname + "/views";
 app.set("views", path);
 app.set('view engine', 'ejs');
 
 //Modelos
-var Prod = require("./models/productos");
-var Comp = require("./models/compras")
+const Prod = require("./models/productos");
+const Comp = require("./models/compras")
 
 async function total_carrito() {
-  var t = await Comp.find();
+  let t = await Comp.find();
   return t.length;
 }
 
 
 //Rutas
 app.get("/", async function (req,res){
-  var p = await Prod.find();
+  let p = await Prod.find();
   res.render('index',{
     productos: p,
     show_mensaje: false,
@@ -51,8 +51,8 @@ app.get("/", async function (req,res){
 });
 
 app.get("/producto/:productoID", async function (req, res) {
-  var id = req.params.productoID;
-  var producto_seleccionado = await Prod.findById(id);
+  let id = req.params.productoID;
+  let producto_seleccionado = await Prod.findById(id);
   res.render("detalle", {
     producto: producto_seleccionado,
     contador: total_carrito(),
@@ -63,9 +63,9 @@ app.get("/producto/:productoID", async function (req, res) {
 
 
 app.post("/comprar", async function (req, res) {
-  var { id_producto, cantidad, precio_unitario, nombre_producto } = req.body;
+  let { id_producto, cantidad, precio_unitario, nombre_producto } = req.body;
 
-  var c = {
+  let c = {
     id_producto: id_producto,
     nombre_producto: nombre_producto,
     precio_unitario: parseInt(precio_unitario),
@@ -74,11 +74,11 @@ app.post("/comprar", async function (req, res) {
     fecha: new Date().toISOString().replace(/T/, " ").replace(/\..+/, ""), //fecha actual en formato yyyy-mm-dd hh:ii:ss
   };
 
-  var cesta = new Comp(c);
+  let cesta = new Comp(c);
   await cesta.save();
 
   //Buscamos todos los productos y los enviamos al inicio
-  var p = await Prod.find();
+  let p = await Prod.find();
   res.render("index", {
     productos: p,
     show_mensaje: true,
@@ -87,9 +87,9 @@ app.post("/comprar", async function (req, res) {
 });
 
 app.get("/cesta", async function (req, res) {
-  var c = await Comp.find();
+  let c = await Comp.find();
 
-  var url = "https://wa.me/5211234567890?text=Este%20es%20mi%20pedido%20.....";
+  let url = "https://wa.me/5211234567890?text=Este%20es%20mi%20pedido%20.....";
 
   res.render("compra", {
     pedido: c,
@@ -99,14 +99,14 @@ app.get("/cesta", async function (req, res) {
 });
 
 app.get("/eliminar/:id_producto", async function (req, res) {
-  var id = req.params.id_producto;
+  let id = req.params.id_producto;
   await Comp.findByIdAndRemove(id);
   res.redirect("/cesta");
 });
 
 app.get("/categoria/:cat", async function (req, res) {
-  var cate = req.params.cat;
-  var prods = await Prod.find({ category: cate });
+  let cate = req.params.cat;
+  let prods = await Prod.find({ category: cate });
 
   res.render("index", {
     productos: prods,

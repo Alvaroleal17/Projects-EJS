@@ -1,7 +1,7 @@
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema
 
-var car = new Schema ({
+const car = new Schema ({
   id_producto: String, //corresponde con el ID del producto (colección Productos)
   nombre_producto: String,
   precio_unitario: Number,
