@@ -1,0 +1,59 @@
+<%- include('header.ejs') %>
+ <%- include('navbar.ejs') %>
+<br>
+<br>
+<div class="container">
+  <h3 class="mt-5 mb-3">Detalle de compra</h3>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Precio Unitario</th>
+        <th>Cantidad</th>
+        <th>Total</th>
+        <th>...</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% var tot = 0; %>
+      <% for(var i =0; i<pedido.length; i++){ %>
+        <tr>
+          <td>
+            <span class="h6 badge bg-dark"></span>
+            <span><%= pedido[i].nombre_producto %></span>
+          </td>
+          <td><%= pedido[i].precio_unitario %> COP</td>
+          <td><%= pedido[i].cantidad %></td>
+          <td><%= pedido[i].total %> COP</td>
+          <td>
+            <a href="/eliminar/<%= pedido[i]._id %>">
+               <i class="fa-solid fa-trash"></i>       
+            </a>
+          </td>
+        </tr>
+        <% tot = tot + pedido[i].total %>
+      <% } %>
+    </tbody>
+    <tfoot>
+      <tr class="table-active">
+        <td class="text-end" colspan="3">
+          <h4>Total</h4>
+        </td>
+        <td colspan="2">
+          <h4><%= tot %> COP</h4>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="row mt-5">
+    <div class="col-md-4 offset-md-4">
+      <div class="d-grid gap-2">
+        <a href="<%= url_wa %>" target="_blank" class="btn btn-lg btn-success" type="button">Finalizar compra</a>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<%- include('footer.ejs') %>

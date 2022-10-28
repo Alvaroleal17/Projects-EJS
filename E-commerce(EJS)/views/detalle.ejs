@@ -1,0 +1,77 @@
+<%- include('header.ejs') %>
+<%- include('navbar.ejs') %>
+
+<div class="container mt-5">
+    <br>
+    <br>
+  <div class="card style="max-width: 2000px"">
+    <h1 class="card-text mt-5 ms-5">Detalle de Producto</h1>
+    <hr class="my-4" />
+    <div class="row g-0">
+      <div class="col-md-6">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+          
+          <div class="carousel-inner">
+            <% for(var i = 0; i<producto.carousel.length; i++){ %>
+            <div class="carousel-item <%= (i == 0)?'active':'' %>">
+              <img src="../../<%= producto.carousel[i] %>" class="d-block w-100" alt="...">
+            </div>
+            <% } %>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card-body">
+          <p class="card-text">
+            <span class="badge bg-info text-dark"
+              ><%= producto.category %></span
+            >
+          </p>
+          <h2 class="card-title"><%= producto.article %></h2>
+          <p class="card-text text-muted"><%= producto.description %></p>
+          <h3 class="card-text"><%= producto.price %> COP</h3>
+          <br>
+          <!-- Boton compar -->
+          <form action="/comprar" method="POST">
+            <input
+              type="hidden"
+              name="id_producto"
+              value="<%= producto._id %>"
+            />
+            <input
+              type="hidden"
+              name="nombre_producto"
+              value="<%= producto.article %>"
+            />
+            <input
+              type="hidden"
+              name="precio_unitario"
+              value="<%= producto.price %>"
+            />
+            <hr class="my-4" >
+             <button type="submit" class="btn btn-dark">Añadir a la cesta</button>
+            <input
+                  type="number"
+                  class="btn btn-secondary"
+                  min="1"
+                  max="<%= producto.stock %>"
+                  value="1"
+                  name="cantidad"
+                  style="width: 50px;"
+            />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('footer.ejs') %>
