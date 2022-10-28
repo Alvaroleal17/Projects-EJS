@@ -1,6 +1,6 @@
 <!--Inicio archivo navar.ejs-->
 
-<%- include('navar.ejs') %>
+<%- include('navbar.ejs') %>
 
 <!--Fin navar.ejs-->
 
@@ -72,7 +72,7 @@
 </div>
 <% }else{ %>
 <div class="p-5 m-3">
-    <h1 class="text-center">Detalle de la Tarea: "<%= task._id %>"</h1>
+    <h1 class="text-center">Detalle de la Tarea: "<%= task.titulo %>"</h1>
     <ul class="list-group">
       <li class="list-group-item"><strong>Título: </strong><%= task.titulo %></li>
       <li class="list-group-item"><strong>Detalle: </strong><%= task.detalle %></li>

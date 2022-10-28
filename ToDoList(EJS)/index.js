@@ -1,7 +1,9 @@
-var express = require("express");
-var app = express();
-var bodyParser = require("body-parser");
-var mongoose = require("mongoose");
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+require("dotenv").config();
+
 
 //Configurar el bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -10,11 +12,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/Public"));
 
 //Mongoose
-
 mongoose
-  .connect(
-    "mongodb+srv://alvaro_0817:A65708589l@cluster0.cbh2tqk.mongodb.net/motorPlantillas?retryWrites=true&w=majority"
-  )
+  .connect(process.env.STRING_CONEXION)
   .then(function (db) {
     console.log("Conectado a la base de datos");
   })
@@ -23,18 +22,17 @@ mongoose
   });
 
 //Configurar Motor de Plantillas
-var path = __dirname + "/views";
+const path = __dirname + "/views";
 app.set("views", path);
 app.set('view engine', 'ejs');
 
 //Modelos
-var Tarea = require("./models/tareas");
+const Tarea = require("./models/tareas");
 
 //Rutas
-
 app.get("/inicio", function(req,res) {
-  var titulo_pagina = "Nueva Tarea";
-  var mostrar = "show_form";
+  let titulo_pagina = "Nueva Tarea";
+  let mostrar = "show_form";
   res.render('index', {
     tit: titulo_pagina,
     show: mostrar,
@@ -42,9 +40,9 @@ app.get("/inicio", function(req,res) {
 });
 
 app.get("/listado", async function (req, res) {
-    var titulo_pagina = "Listado de Tareas";
-    var mostrar = "show_table"
-    var tareas = await Tarea.find();
+    let titulo_pagina = "Listado de Tareas";
+    let mostrar = "show_table"
+    let tareas = await Tarea.find();
     res.render("index", {
       tit: titulo_pagina,
       docs: tareas,
@@ -53,15 +51,15 @@ app.get("/listado", async function (req, res) {
 });
 
 app.post("/nuevaTarea", async function (req, res){
-    var datos = req.body;
-    var t = new Tarea(datos);
+    let datos = req.body;
+    let t = new Tarea(datos);
     await t.save();
     res.redirect("/listado")
 });
 
 //Delete
 app.get("/eliminar/:id", async function (req, res) {
-    var parametro = req.params.id;
+    let parametro = req.params.id;
     console.log("Documento eliminado: " + parametro);
     await Tarea.findByIdAndRemove(parametro);
     res.redirect("/listado")
@@ -69,23 +67,23 @@ app.get("/eliminar/:id", async function (req, res) {
 
 //Modificar
 app.get("/modificar/:id", async function (req, res) {
-  var parametro = req.params.id;
-  var t = await Tarea.findById(parametro);
+  let parametro = req.params.id;
+  let t = await Tarea.findById(parametro);
   t.estado = !t.estado;
   await t.save();
   res.redirect("/listado");
 });
 
 app.post("/modificar/:id", async function (req, res) {
-  var datos = req.body;
-  var t = await Task.findByIdAndUpdate({ _id: datos._id }, datos);
+  let datos = req.body;
+  let t = await Task.findByIdAndUpdate({ _id: datos._id }, datos);
   res.redirect("/listado");
 });
 
 //Detalle de Tarea
 app.get("/ver/:id", async function (req, res) {
-  var parametro = req.params.id;
-  var t = await Tarea.findById(parametro);
+  let parametro = req.params.id;
+  let t = await Tarea.findById(parametro);
   res.render("index", {
     tit: "Detalle de Tarea",
     show: "show_detail",
@@ -94,7 +92,6 @@ app.get("/ver/:id", async function (req, res) {
 });
 
 //Listen
-app.listen(4000, function () {
+app.listen(3000, function () {
     console.log("Servidor iniciado");
   });
-  
