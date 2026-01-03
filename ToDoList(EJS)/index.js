@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-
 //Configurar el bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -24,46 +23,50 @@ mongoose
 //Configurar Motor de Plantillas
 const path = __dirname + "/views";
 app.set("views", path);
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
 
 //Modelos
 const Tarea = require("./models/tareas");
 
+app.get("/", function (req, res) {
+  res.redirect("/inicio");
+});
+
 //Rutas
-app.get("/inicio", function(req,res) {
+app.get("/inicio", function (req, res) {
   let titulo_pagina = "Nueva Tarea";
   let mostrar = "show_form";
-  res.render('index', {
+  res.render("index", {
     tit: titulo_pagina,
     show: mostrar,
   });
 });
 
 app.get("/listado", async function (req, res) {
-    let titulo_pagina = "Listado de Tareas";
-    let mostrar = "show_table"
-    let tareas = await Tarea.find();
-    res.render("index", {
-      tit: titulo_pagina,
-      docs: tareas,
-      show: mostrar,
-    });
+  let titulo_pagina = "Listado de Tareas";
+  let mostrar = "show_table";
+  let tareas = await Tarea.find();
+  res.render("index", {
+    tit: titulo_pagina,
+    docs: tareas,
+    show: mostrar,
+  });
 });
 
-app.post("/nuevaTarea", async function (req, res){
-    let datos = req.body;
-    let t = new Tarea(datos);
-    await t.save();
-    res.redirect("/listado")
+app.post("/nuevaTarea", async function (req, res) {
+  let datos = req.body;
+  let t = new Tarea(datos);
+  await t.save();
+  res.redirect("/listado");
 });
 
 //Delete
 app.get("/eliminar/:id", async function (req, res) {
-    let parametro = req.params.id;
-    console.log("Documento eliminado: " + parametro);
-    await Tarea.findByIdAndRemove(parametro);
-    res.redirect("/listado")
-  });
+  let parametro = req.params.id;
+  console.log("Task deleted: " + parametro);
+  await Tarea.findByIdAndDelete(parametro);
+  res.redirect("/listado");
+});
 
 //Modificar
 app.get("/modificar/:id", async function (req, res) {
@@ -74,9 +77,9 @@ app.get("/modificar/:id", async function (req, res) {
   res.redirect("/listado");
 });
 
-app.post("/modificar/:id", async function (req, res) {
+app.post("/modificar", async function (req, res) {
   let datos = req.body;
-  let t = await Task.findByIdAndUpdate({ _id: datos._id }, datos);
+  await Tarea.findByIdAndUpdate(datos._id, datos);
   res.redirect("/listado");
 });
 
@@ -93,5 +96,5 @@ app.get("/ver/:id", async function (req, res) {
 
 //Listen
 app.listen(3000, function () {
-    console.log("Servidor iniciado");
-  });
+  console.log("Servidor iniciado");
+});

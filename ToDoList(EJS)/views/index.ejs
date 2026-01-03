@@ -12,7 +12,7 @@
 <br />
 <% if(show == "show_form"){ %>
 <main class=" form-list m-auto p-5">
-  <h1 class="text-center">Insertar nueva tarea</h1>
+  <h1 class="text-center">Enter a new task</h1>
   <br />
   <form action="/nuevaTarea" method="POST">
     <div class="form-floating text-center">
@@ -21,37 +21,37 @@
         class="form-control"
         id="titulo"
         name="titulo"
-        placeholder="Ingrese el título"
+        placeholder="Enter a heading"
       />
-      <label for="floatingPassword">Titulo</label>
+      <label for="floatingPassword">Heading</label>
     </div>
     <br />
     <div class="form-floating">
       <textarea name="detalle" class="form-control" id="detalle"></textarea>
-      <label for="floatingInput">Detalle</label>
+      <label for="floatingInput">Description</label>
     </div>
     <br>
     <div class="form-floating">
       <input type="date" name="fecha" class="form-control" id="fecha"></input>
-      <label for="floatingInput">Fecha</label>
+      <label for="floatingInput">Date</label>
     </div>
     <br>
-    <button type="submit" class="btn btn-lg btn-success form-control">Enviar</button>
+    <button type="submit" class="btn btn-lg btn-success form-control">Send</button>
     <br />
     <br />
   </form>
 </main>
 <% }else if(show == "show_table"){ %>
 <div class="p-5 m-3">
-    <h1 class="text-center">Listado de Tareas</h1>
+    <h1 class="text-center">List of taks</h1>
     <br>
     <table class="table table-bordered mt-3">
         <thead>
             <tr>
-                <th>Titulo</th>
-                <th>Fecha</th>
-                <th>Estado</th>
-                <th>Acciones</th>
+                <th>Heading</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -59,11 +59,11 @@
                 <tr>
                     <td><%= docs[i].titulo %></td>
                     <td><%= docs[i].fecha %></td>
-                    <td><%= (docs[i].estado == false) ? 'Sin Finalizar': 'Finalizada' %></td>
-                    <td >
-                      <a class="btn btn-danger" href="/eliminar/<%= docs[i]._id %>">Eliminar</a>
-                      <a class="btn btn-warning" href="/modificar/<%= docs[i]._id %>">Modificar</a>
-                      <a class="btn btn-info" href="/ver/<%= docs[i]._id %>">Ver</a>
+                    <td><%= (docs[i].estado == false) ? 'Not Completed': 'Completed' %></td>
+                    <td>
+                      <a class="btn btn-danger" href="/eliminar/<%= docs[i]._id %>">Delete</a>
+                      <a class="btn btn-warning" href="/modificar/<%= docs[i]._id %>">Change Status</a>
+                      <a class="btn btn-info" href="/ver/<%= docs[i]._id %>">Modify</a>
                     </td>
                 </tr>
             <% } %>
@@ -72,17 +72,17 @@
 </div>
 <% }else{ %>
 <div class="p-5 m-3">
-    <h1 class="text-center">Detalle de la Tarea: "<%= task.titulo %>"</h1>
+    <h1 class="text-center">Description's task: "<%= task.titulo %>"</h1>
     <ul class="list-group">
-      <li class="list-group-item"><strong>Título: </strong><%= task.titulo %></li>
-      <li class="list-group-item"><strong>Detalle: </strong><%= task.detalle %></li>
-      <li class="list-group-item"><strong>Fecha: </strong><%= task.fecha %></li>
-      <li class="list-group-item"><strong>Estado: </strong><%= task.estado %></li>
+      <li class="list-group-item"><strong>Heading: </strong><%= task.titulo %></li>
+      <li class="list-group-item"><strong>Description: </strong><%= task.detalle %></li>
+      <li class="list-group-item"><strong>Date: </strong><%= task.fecha %></li>
+      <li class="list-group-item"><strong>Status: </strong><%= task.estado %></li>
     </ul>
     <br>
     <hr>
     <br>
-    <h1 class="text-center">Modificar Tarea</h1>
+    <h1 class="text-center">Modify Task</h1>
     <form action="/modificar" method="POST">
       <input type="hidden" name="_id" value="<%= task._id %>">
       <div class="form-floating text-center">
@@ -90,23 +90,23 @@
           type="text"
           class="form-control"
           name="titulo"
-          placeholder="Ingrese el título"
+          placeholder="Enter a heading"
           value="<%= task.titulo %>"
         />
-        <label for="floatingPassword">Titulo</label>
+        <label for="floatingPassword">Heading</label>
       </div>
       <br />
       <div class="form-floating">
         <textarea name="detalle" class="form-control" ><%= task.detalle %></textarea>
-        <label for="floatingInput">Detalle</label>
+        <label for="floatingInput">Description</label>
       </div>
       <br>
       <div class="form-floating">
         <input type="date" name="fecha" class="form-control"  value="<%= task.fecha %>"></input>
-        <label for="floatingInput">Fecha</label>
+        <label for="floatingInput">Date</label>
       </div>
       <br>
-      <button type="submit" class="btn btn-lg btn-success form-control">Enviar</button>
+      <button type="submit" class="btn btn-lg btn-success form-control">Modify this task</button>
       <br />
       <br />
     </form>
