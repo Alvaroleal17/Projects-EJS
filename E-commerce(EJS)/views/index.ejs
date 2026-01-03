@@ -2,12 +2,12 @@
 true){ %>
 <div class="mt-5">
   <div class="alert alert-success text-center" role="alert">
-    Producto agregado correctamente a la <a href="/cesta">cesta</a>.
+    The item was successfully added to shopping <a href="/cesta">cart</a>
   </div>
 </div>
 <% } %>
 
-<h1 class="mt-5 mb-3 pt-5 text-center">Listado de productos</h1>
+<h1 class="mt-5 mb-3 pt-5 text-center">Items List</h1>
 
 <div class="container">
   <div class="row">
@@ -15,7 +15,7 @@ true){ %>
     <div class="col col-4 mb-5">
       <div class="card">
         <img
-          src="../<%= productos[i].carousel[0] %>"
+          src="/img/<%= productos[i].carousel[0] %>"
           class="card-img-top"
           alt="..."
         />
@@ -28,7 +28,7 @@ true){ %>
           <a
             href="/producto/<%= productos[i]._id %>"
             class="btn btn-outline-primary btn-sm"
-            >Ver más</a
+            >See more</a
           >
         </div>
       </div>

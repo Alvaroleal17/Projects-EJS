@@ -5,10 +5,10 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 
-//Configurar el bodyParser
+//set bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//Cargar archivos estaticos
+//Load static tabs 
 app.use(express.static(__dirname + "/public"));
 
 
@@ -24,7 +24,7 @@ mongoose
     console.log(err);
   });
 
-//Configurar Motor de Plantillas
+//setting of EJS 
 const path = __dirname + "/views";
 app.set("views", path);
 app.set('view engine', 'ejs');
@@ -77,7 +77,7 @@ app.post("/comprar", async function (req, res) {
   let cesta = new Comp(c);
   await cesta.save();
 
-  //Buscamos todos los productos y los enviamos al inicio
+  //search the products and get back to the home screen 
   let p = await Prod.find();
   res.render("index", {
     productos: p,
